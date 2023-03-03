@@ -1,8 +1,24 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Live Demo
+
+[https://cmlabs-frontend-fulltime-test.vercel.app/](https://cmlabs-frontend-fulltime-test.vercel.app/)
+
 ## Getting Started
 
-First, run the development server:
+First, add your environment variables to a `.env.local` file in the root of the project. You can use the `.env.example` file as a template.
+
+```bash
+cp .env.example .env.local
+```
+
+Then, install the dependencies and run the development server:
+
+```bash
+npm install
+```
+
+last run the development server:
 
 ```bash
 npm run dev
