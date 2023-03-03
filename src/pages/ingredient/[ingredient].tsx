@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
-import Link from "next/link";
 import MealCard from "@/components/MealCard";
 import { Meals } from "@/types";
 import SearchInputAndButton from "@/components/SearchInputAndButton";
@@ -28,7 +27,7 @@ function IngredientName() {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setFilteredMeals(
-      meals.filter((meal) =>
+      meals?.filter((meal) =>
         meal.strMeal.toLowerCase().includes(search.toLowerCase())
       )
     );
@@ -50,16 +49,16 @@ function IngredientName() {
           <Breadcrumbs path={ingredient as string} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2">
-          {filteredMeals && filteredMeals.length > 0
+          {filteredMeals?.length > 0
             ? filteredMeals.map((meal) => (
-                <Link href={`/meal/${meal.idMeal}`} key={meal.idMeal}>
+                <div key={meal.idMeal}>
                   <MealCard props={meal} />
-                </Link>
+                </div>
               ))
             : meals?.map((meal) => (
-                <Link href={`/meal/${meal.idMeal}`} key={meal.idMeal}>
+                <div key={meal.idMeal}>
                   <MealCard props={meal} />
-                </Link>
+                </div>
               ))}
         </div>
       </main>

@@ -30,7 +30,7 @@ export default function Home() {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setFilteredIngredients(
-      ingredients.filter((ingredient) =>
+      ingredients?.filter((ingredient) =>
         ingredient.strIngredient.toLowerCase().includes(search.toLowerCase())
       )
     );
@@ -38,7 +38,7 @@ export default function Home() {
 
   // Convert ingredients name to lowercase and remove spaces add _ instead
   const convertName = (name: string) => {
-    return name.toLowerCase().replace(/ /g, "_");
+    return name?.toLowerCase().replace(/ /g, "_");
   };
 
   return (
