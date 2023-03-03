@@ -10,9 +10,6 @@ function Navbar() {
           Meals App
         </Link>
       </div>
-      <div className="flex-none gap-2">
-        <SearchInputAndButton />
-      </div>
     </nav>
   );
 }

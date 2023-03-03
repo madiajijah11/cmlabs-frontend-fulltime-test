@@ -1,11 +1,5 @@
 import React from "react";
-
-interface Ingredient {
-  idIngredient: string;
-  strIngredient: string;
-  strDescription: string;
-  strType: string;
-}
+import { Ingredient } from "@/types";
 
 function IngredientCard({ props }: { props: Ingredient }) {
   return (

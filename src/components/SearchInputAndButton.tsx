@@ -1,15 +1,29 @@
 import React from "react";
 
-function SearchInputAndButton() {
+function SearchInputAndButton({
+  setSearch,
+  handleSubmit,
+  search,
+}: {
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  handleSubmit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}) {
   return (
-    <div className="form-control">
-      <div className="input-group">
+    <div className="form-control flex-col">
+      <div className="input-group w-full">
         <input
           type="text"
-          placeholder="Search…"
+          placeholder={`Search ${search}`}
           className="input input-bordered"
+          onChange={(e) => setSearch(e.target.value)}
         />
-        <button className="btn btn-square btn-primary">
+        <button
+          className="btn btn-square btn-primary"
+          onClick={(e) => {
+            handleSubmit(e);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"

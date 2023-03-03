@@ -3,62 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
-
-interface Meal {
-  idMeal: string;
-  strMeal: string;
-  strDrinkAlternate: string;
-  strCategory: string;
-  strArea: string;
-  strInstructions: string;
-  strMealThumb: string;
-  strTags: string;
-  strYoutube: string;
-  strIngredient1: string;
-  strIngredient2: string;
-  strIngredient3: string;
-  strIngredient4: string;
-  strIngredient5: string;
-  strIngredient6: string;
-  strIngredient7: string;
-  strIngredient8: string;
-  strIngredient9: string;
-  strIngredient10: string;
-  strIngredient11: string;
-  strIngredient12: string;
-  strIngredient13: string;
-  strIngredient14: string;
-  strIngredient15: string;
-  strIngredient16: string;
-  strIngredient17: string;
-  strIngredient18: string;
-  strIngredient19: string;
-  strIngredient20: string;
-  strMeasure1: string;
-  strMeasure2: string;
-  strMeasure3: string;
-  strMeasure4: string;
-  strMeasure5: string;
-  strMeasure6: string;
-  strMeasure7: string;
-  strMeasure8: string;
-  strMeasure9: string;
-  strMeasure10: string;
-  strMeasure11: string;
-  strMeasure12: string;
-  strMeasure13: string;
-  strMeasure14: string;
-  strMeasure15: string;
-  strMeasure16: string;
-  strMeasure17: string;
-  strMeasure18: string;
-  strMeasure19: string;
-  strMeasure20: string;
-  strSource: string;
-  strImageSource: string;
-  strCreativeCommonsConfirmed: string;
-  dateModified: string;
-}
+import { Meal } from "@/types";
 
 function Meals() {
   const router = useRouter();
@@ -81,6 +26,14 @@ function Meals() {
     <>
       <Navbar />
       <main>
+        <div className="flex justify-between items-center px-2 pt-2">
+          <button
+            className="bg-primary hover:bg-secondary font-bold py-2 px-4 rounded inline-flex items-center w-full md:w-auto"
+            onClick={() => router.back()}
+          >
+            <span>Back to meals</span>
+          </button>
+        </div>
         <div className="px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold">{meal?.strMeal}</h1>
           <hr className="my-2" />
@@ -116,7 +69,7 @@ function Meals() {
                 <p>{meal?.strInstructions}</p>
                 <div>
                   <p className="font-bold text-2xl">Recipes</p>
-                  <div>
+                  <div className="flex flex-col md:flex-row md:gap-4">
                     <div>
                       <ul className="list-item">
                         <li>

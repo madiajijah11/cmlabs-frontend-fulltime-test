@@ -1,11 +1,6 @@
 import React from "react";
 import Image from "next/image";
-
-interface Meals {
-  strMeal: string;
-  strMealThumb: string;
-  idMeal: string;
-}
+import { Meals } from "@/types";
 
 function MealCard({ props }: { props: Meals }) {
   return (

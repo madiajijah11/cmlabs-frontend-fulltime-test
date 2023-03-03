@@ -3,40 +3,38 @@ import Navbar from "@/components/Navbar";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-
-interface Ingredient {
-  idIngredient: string;
-  strIngredient: string;
-  strDescription: string;
-  strType: string;
-}
+import { Ingredient } from "@/types";
+import SearchInputAndButton from "@/components/SearchInputAndButton";
 
 export default function Home() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [search, setSearch] = useState("");
+  const [filteredIngredients, setFilteredIngredients] =
+    useState<Ingredient[]>(ingredients);
 
   // Fetch ingredients
   useEffect(() => {
     const getIngredients = async () => {
       const { data } = await axios.get("/api/ingredients");
-      setIngredients(data);
+      setIngredients(
+        // Sort ingredients alphabetically
+        data.sort((a: Ingredient, b: Ingredient) =>
+          a.strIngredient > b.strIngredient ? 1 : -1
+        )
+      );
     };
     getIngredients();
   }, []);
 
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const [ingredientsPerPage] = useState(20);
-
-  // Get current ingredients
-  const indexOfLastIngredient = currentPage * ingredientsPerPage;
-  const indexOfFirstIngredient = indexOfLastIngredient - ingredientsPerPage;
-  const currentIngredients = ingredients.slice(
-    indexOfFirstIngredient,
-    indexOfLastIngredient
-  );
-
-  // Change page
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  // Filter ingredients
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    setFilteredIngredients(
+      ingredients.filter((ingredient) =>
+        ingredient.strIngredient.toLowerCase().includes(search.toLowerCase())
+      )
+    );
+  };
 
   // Convert ingredients name to lowercase and remove spaces add _ instead
   const convertName = (name: string) => {
@@ -47,35 +45,34 @@ export default function Home() {
     <>
       <Navbar />
       <main>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2">
-          {currentIngredients.map((ingredient) => (
-            <Link
-              href={`/ingredient/${convertName(ingredient.strIngredient)}`}
-              key={ingredient.idIngredient}
-            >
-              <IngredientCard props={ingredient} />
-            </Link>
-          ))}
+        <h1 className="text-center text-3xl font-bold mt-4 flex-1">
+          Ingredients
+        </h1>
+        <div className="p-2 flex w-full justify-end">
+          <SearchInputAndButton
+            setSearch={setSearch}
+            handleSubmit={handleSubmit}
+            search="ingredient..."
+          />
         </div>
-        <div className="flex justify-center btn-group mt-2">
-          <button
-            className="btn btn-primary"
-            disabled={currentPage === 1}
-            onClick={() => paginate(currentPage - 1)}
-          >
-            Previous
-          </button>
-          <button className="btn btn-primary">
-            Page {currentPage} of{" "}
-            {Math.ceil(ingredients.length / ingredientsPerPage)}
-          </button>
-          <button
-            className="btn btn-primary"
-            disabled={currentIngredients.length < 20}
-            onClick={() => paginate(currentPage + 1)}
-          >
-            Next
-          </button>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2">
+          {filteredIngredients && filteredIngredients.length > 0
+            ? filteredIngredients?.map((ingredient) => (
+                <Link
+                  href={`/ingredient/${convertName(ingredient.strIngredient)}`}
+                  key={ingredient.idIngredient}
+                >
+                  <IngredientCard props={ingredient} />
+                </Link>
+              ))
+            : ingredients?.map((ingredient) => (
+                <Link
+                  href={`/ingredient/${convertName(ingredient.strIngredient)}`}
+                  key={ingredient.idIngredient}
+                >
+                  <IngredientCard props={ingredient} />
+                </Link>
+              ))}
         </div>
       </main>
     </>
